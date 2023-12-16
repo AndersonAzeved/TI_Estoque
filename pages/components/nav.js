@@ -8,14 +8,14 @@ export default function Nav(){
             <div className={styles.nav}>
                 <nav className="navbar">
                     <div className="container-fluid">
-                        <p className="navbar-brand">Sistema de Gerenciamento de Estoque</p>
+                        <p className="navbar-brand">Estoque TI</p>
                         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="offcanvas offcanvas-end" tabIndex="1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
                         <div className="offcanvas-header">
                             <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">Olá, bem vindo nome</h5>
-                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            <button type="button" className="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div className="offcanvas-body">
                             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
@@ -24,6 +24,12 @@ export default function Nav(){
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="/">Cadastrar Produto</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/">Buscar Produto</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/">Consultar Estoque</a>
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -34,6 +40,12 @@ export default function Nav(){
                                 <li><a className="dropdown-item" href="#">Saída</a></li>
                                 <li><a className="dropdown-item" href="#">Registros</a></li>
                                 </ul>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="../auth/login">Log in</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="../auth/signup">Sign up</a>
                             </li>
                             </ul>
                         </div>
