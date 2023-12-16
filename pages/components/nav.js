@@ -23,10 +23,10 @@ export default function Nav(){
                                 <a className="nav-link active" aria-current="page" href="/">Home</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/">Cadastrar Produto</a>
+                                <a className="nav-link" href="../produto/cadastrar">Cadastrar Produto</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/">Buscar Produto</a>
+                                <a className="nav-link" href="../produto/buscar">Buscar Produto</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="/">Consultar Estoque</a>
