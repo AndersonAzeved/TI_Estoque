@@ -1,9 +1,9 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { initializeApp } from "firebase/app"
+import { getAuth, initializeAuth } from "firebase/auth"
+import { getFirestore} from "firebase/firestore"
 
 const firebaseConfig = {
-    apiKey: process.env.APIKEY,
+    apiKey: process.env.NEXT_PUBLIC_APIKEY,
     authDomain: process.env.AUTHDOMAIN,
     projectId: process.env.PROJECTID,
     storageBucket: process.env.STORAGEBUCKET,
@@ -12,6 +12,6 @@ const firebaseConfig = {
     measurementId: process.env.MEASUREMENTID
 }
 
-export const app = initializeApp(firebaseConfig)
-export const bd = getFirestore(app)
+const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
+export const bd = getFirestore(app)

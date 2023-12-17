@@ -30,7 +30,7 @@ export default function Login(){
                 <div className="form-text">
                     <p>Esqueceu a senha? <a href="./redefine">recupere aqui</a></p>
                 </div>
-                <button type="submit" className="btn btn-primary">Cadastrar</button>
+                <button type="submit" className="btn btn-outline-success">Cadastrar</button>
             </form>
         </div>
     )

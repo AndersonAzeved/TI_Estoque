@@ -8,7 +8,7 @@ export default function Login(){
                     <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" required/>
                     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
-                <button type="submit" className="btn btn-primary">Enviar</button>
+                <button type="submit" className="btn btn-outline-success">Enviar</button>
             </form>
         </div>
     )

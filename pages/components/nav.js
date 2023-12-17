@@ -8,7 +8,7 @@ export default function Nav(){
             <div className={styles.nav}>
                 <nav className="navbar">
                     <div className="container-fluid">
-                        <p className="navbar-brand">Estoque TI</p>
+                        <p className="navbar-brand">Gerenciamento de Estoque</p>
                         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                         </button>
@@ -22,14 +22,13 @@ export default function Nav(){
                             <li className="nav-item">
                                 <a className="nav-link active" aria-current="page" href="/">Home</a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="../produto/cadastrar">Cadastrar Produto</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="../produto/buscar">Buscar Produto</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/">Consultar Estoque</a>
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Produto</a>
+                                <ul className="dropdown-menu dropdown-menu-dark">
+                                <li><a className="dropdown-item" href="../produto/cadastrar">Cadastrar</a></li>
+                                <li><a className="dropdown-item" href="../produto/buscar">Buscar</a></li>
+                                <li><a className="dropdown-item" href="../produto/consultar">Ver estoque</a></li>
+                                </ul>
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
