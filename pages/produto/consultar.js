@@ -1,6 +1,6 @@
 import { getProdutos } from "../../api/produto"
 
-export default function ConsultarEstoque({produtos}){
+export default function ConsultarEstoque(props){
     return(
         <div>
             <h1>Estoque de produtos</h1>
@@ -14,7 +14,7 @@ export default function ConsultarEstoque({produtos}){
                         </tr>
                     </thead>
                     <tbody className="table-group-divider">
-                        {produtos?.map((p) =>
+                        {props.produtos?.map((p) =>
                             <tr key={p.id}>
                                 <th scope="row">{p.id}</th>
                                 <td>{p.data.nome}</td>
