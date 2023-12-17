@@ -32,11 +32,13 @@ export async function getStaticProps(){
     try {
         const produtos = await getProdutos()
         return{
-            props: {produtos}
+            props: {produtos},
+            revalidate: false,
         }
     } catch (error) {
         return{
-            props: {}
+            props: {},
+            revalidate: false,
         }
     }
 }
