@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { getProdutos } from "../../api/produtoApi"
+import { getProdutos } from "../../api/produto"
 
 
 export default function CadastrarProduto({produtos}){

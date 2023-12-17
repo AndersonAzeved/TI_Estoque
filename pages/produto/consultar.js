@@ -1,4 +1,4 @@
-import { getProdutos } from "../../api/produtoApi"
+import { getProdutos } from "../../api/produto"
 
 export default function ConsultarEstoque({produtos}){
     return(
