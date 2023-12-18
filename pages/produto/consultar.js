@@ -1,18 +1,26 @@
+import { collection, onSnapshot } from "firebase/firestore";
 import { getProdutos } from "../../api/produto"
+import { bd } from "../../util/firebase";
 
-export default function ConsultarEstoque(props){
+export default function ConsultarEstoque(){
     const gerar = (e) => {
         e.preventDefault()
-        document.getElementById('table').innerHTML = `
-            ${props.produtos?.map((p) =>
-                `<tr key=${p.id}>
-                    <th scope="row">${p.id}</th>
-                    <td>${p.data.nome}</td>
-                    <td>${p.data.quantidade}</td>
-                </tr>`
-            ).join('')}
-        `  
-    }   
+
+        const estoqueTable = document.getElementById("table")
+        estoqueTable.innerHTML = ``
+        pegaEstoque((estoque) => {
+            estoqueTable.innerHTML = `
+                ${estoque.map((produto) => `
+                    <tr>
+                        <td>${produto.id}</td>
+                        <td>${produto.data.nome}</td>
+                        <td>${produto.data.quantidade}</td>
+                    </tr>
+                `).join('')}
+            `
+        })
+    };
+         
 
     return(
         <div>
@@ -40,17 +48,17 @@ export default function ConsultarEstoque(props){
     )
 }
 
-export async function getStaticProps(){
-    try {
-        const produtos = await getProdutos()
-        return{
-            props: {produtos},
-            revalidate: false,
-        }
-    } catch (error) {
-        return{
-            props: {},
-            revalidate: false,
-        }
-    }
+export const pegaEstoque = (callback) => {
+    const estoque = []
+    const produtosCollection = collection(bd, 'produto')
+
+    onSnapshot(produtosCollection, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+        const dados = { 
+            id: doc.id,
+            data: doc.data()}
+        estoque.push(dados)
+        });
+        callback(estoque)
+    });
 }

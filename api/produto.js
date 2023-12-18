@@ -1,4 +1,4 @@
-import { collection, getDocs} from "firebase/firestore";
+import { collection, doc, getDocs, setDoc} from "firebase/firestore";
 import {bd} from '../util/firebase'
 
 export async function getProdutos(){
@@ -9,4 +9,8 @@ export async function getProdutos(){
       data:doc.data(),
     }))
   return produtos
+}
+
+export async function cadastrarDoc(colecao, codigo, data){
+  await setDoc(doc(bd, colecao, codigo), data)
 }
