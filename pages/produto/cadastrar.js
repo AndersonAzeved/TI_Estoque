@@ -1,33 +1,36 @@
 import { useState } from "react"
-import { cadastrarDoc, getProdutos } from "../../api/produto"
+import { cadastrarDoc } from "../../api/produto"
 import { pegaEstoque } from "./consultar"
-import { useRouter } from "next/router"
 
 
 export default function CadastrarProduto(){
     const [codigo, setCodigo] = useState('')
     const [nome, setNome] = useState('')
     const [qnt, setQnt] = useState('')
+
+    const [estoque, setEstoque] = useState()
+
+    pegaEstoque((estoque) => {
+        setEstoque(estoque)
+    })
     
     const cadastrar = (e) =>{
         document.getElementById("result").innerHTML = ""
         e.preventDefault()
 
-        pegaEstoque((estoque) => {
-            const codigoJaCadastrado = estoque.some((p) => p.id === codigo)
-      
-            if (codigoJaCadastrado) {
-                document.getElementById("result").innerHTML = "Código já cadastrado"
-            } else if (qnt >= 0) {
-                cadastrarDoc('produto', codigo, {nome: nome, quantidade: qnt})
-                document.getElementById("result").innerHTML = "Produto cadastrado"
-                setCodigo("");
-                setNome("");
-                setQnt("");
-            } else {
-              document.getElementById("result").innerHTML = "Quantidade deve ser maior ou igual a 0"
-            }
-        })
+        const codigoJaCadastrado = estoque.some((p) => p.id === codigo)
+    
+        if (codigoJaCadastrado) {
+            document.getElementById("result").innerHTML = "Código já cadastrado"
+        } else if (qnt >= 0) {
+            cadastrarDoc('produto', codigo, {nome: nome, quantidade: qnt})
+            document.getElementById("result").innerHTML = "Produto cadastrado"
+            setCodigo("");
+            setNome("");
+            setQnt("");
+        } else {
+            document.getElementById("result").innerHTML = "Quantidade deve ser maior ou igual a 0"
+        }
     }
 
     return(

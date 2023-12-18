@@ -26,7 +26,6 @@ export default function Nav(){
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Produto</a>
                                 <ul className="dropdown-menu dropdown-menu-dark">
                                 <li><a className="dropdown-item" href="../produto/cadastrar">Cadastrar</a></li>
-                                <li><a className="dropdown-item" href="../produto/buscar">Buscar</a></li>
                                 <li><a className="dropdown-item" href="../produto/consultar">Ver estoque</a></li>
                                 </ul>
                             </li>
