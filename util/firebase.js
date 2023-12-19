@@ -21,15 +21,15 @@ export const bd = getFirestore(app)
 export const autenticar = () => { 
   const [valor, setValor] = useState('')
 
-  useEffect(() => {
+  //useEffect(() => {
       onAuthStateChanged(auth, (user) => {
           if(user){
               setValor(true)
           }else{
               setValor(false)
           }
-      }, [auth])
-  })
+      })//, [auth])
+ //})
 
   return valor
 }

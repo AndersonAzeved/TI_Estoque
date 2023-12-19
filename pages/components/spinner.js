@@ -1,7 +1,9 @@
 export default function Spinner(){
     return(
-        <div className="spinner-border text-success" role="status">
-            <span className="visually-hidden">Loading...</span>
+        <div style={{justifyContent: "center", textAlign: "center"}}>
+            <div className="spinner-border text-success" role="status" style={{width: 70, height: 70}}>
+                <span className="visually-hidden">Loading...</span>
+            </div>
         </div>
     )
 }

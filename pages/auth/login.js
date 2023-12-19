@@ -2,6 +2,7 @@ import { useState } from "react"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { autenticar, auth, sair } from "../../util/firebase"
 import { useRouter } from "next/router"
+import Spinner from "../components/spinner"
 
 
 export default function Login(){

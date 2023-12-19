@@ -1,11 +1,15 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { getProdutos } from "../../api/produto"
-import { bd } from "../../util/firebase";
+import { autenticar, auth, bd } from "../../util/firebase";
 import { useState } from "react";
+import Spinner from "../components/spinner";
+import { useRouter } from "next/router";
 
 export default function ConsultarEstoque(){
     const [estoque, setEstoque] = useState()
     const [busca, setBusca] = useState('')
+    const router = useRouter()
+    const autenticado = autenticar()
 
     pegaEstoque((estoque) => {
         setEstoque(estoque)
@@ -51,43 +55,53 @@ export default function ConsultarEstoque(){
             }
         }
     }
-    
 
-    return(
-        <div>
-            <h1>Estoque de produtos</h1>
-            <div style={{display: "flex", justifyContent: "flex-start", justifyContent: "space-evenly"}}>
-                <h4>Gerar relatório de estoque</h4>
-                <button type="button" onClick={gerar} className="btn btn-outline-success">Gerar</button>
-                <div id="helpBusca"></div>
-            </div>
-
+    if(autenticado == true){
+        return(
             <div>
-            <h1>Buscar produto pelo nome</h1>
-                <div className="container-fluid">
-                    <form className="d-flex" role="search" >
-                        <input className="form-control me-2" type="search" placeholder="Buscar produto" aria-label="Search" onChange={(e) => setBusca(e.target.value)}/>
-                        <button className="btn btn-outline-success" type="button" onClick={buscar}>Buscar</button>
-                    </form>
+                <h1>Estoque de produtos</h1>
+                <div style={{display: "flex", justifyContent: "flex-start", justifyContent: "space-evenly"}}>
+                    <h4>Gerar relatório de estoque</h4>
+                    <button type="button" onClick={gerar} className="btn btn-outline-success">Gerar</button>
+                    <div id="helpBusca"></div>
+                </div>
+    
+                <div>
+                <h1>Buscar produto pelo nome</h1>
+                    <div className="container-fluid">
+                        <form className="d-flex" role="search" >
+                            <input className="form-control me-2" type="search" placeholder="Buscar produto" aria-label="Search" onChange={(e) => setBusca(e.target.value)}/>
+                            <button className="btn btn-outline-success" type="button" onClick={buscar}>Buscar</button>
+                        </form>
+                    </div>
+                </div>
+            
+                <div className="table-responsive">   
+                    <table className="table table-striped">
+                        <thead className="table-dark">
+                            <tr>
+                                <th scope="col">Codigo</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Quant.</th>
+                            </tr>
+                        </thead>
+                        <tbody className="table-group-divider" id="table">
+                            
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        )
+    
+    }else if(autenticado == false && auth.currentUser == null){
+        console.log(autenticado, auth.currentUser)
+        if (typeof window !== 'undefined') {
+            router.push('/');
+        }
+    }else{
+        return(<Spinner/>)
         
-            <div className="table-responsive">   
-                <table className="table table-striped">
-                    <thead className="table-dark">
-                        <tr>
-                            <th scope="col">Codigo</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Quant.</th>
-                        </tr>
-                    </thead>
-                    <tbody className="table-group-divider" id="table">
-                        
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    )
+    }
 }
 
 export const pegaEstoque = (callback) => {
