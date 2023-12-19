@@ -1,36 +1,42 @@
 import { useState } from "react"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../../util/firebase"
-import Spinner from "../components/spinner"
+import { autenticar, auth, sair } from "../../util/firebase"
+import { useRouter } from "next/router"
 
 
 export default function Login(){
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
+    const router = useRouter()
+
     const login = (e) => {
         e.preventDefault()
         
         
         signInWithEmailAndPassword(auth, email, senha).then((userCredential) => {
             const user = userCredential.user
-            console.log('user', user)
+            document.getElementById('passwordHelp').innerHTML = 'Log in com sucesso'
         }).catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log('dfdfs',errorMessage)
+            const errorCode = error.code
+            if(errorCode == 'auth/missing-password'){
+              document.getElementById('passwordHelp').innerHTML = '*Informe uma senha'
+            }else if(errorCode == 'auth/invalid-credential'){
+                document.getElementById('passwordHelp').innerHTML = '*Credenciais inválidos'
+            }else{
+                document.getElementById('passwordHelp').innerHTML = '*Verifique as informações'
+            }
         })
     }
 
-    if(auth.currentUser){
+    if(autenticar()){
+        router.push('/')
+    }else{
         return(
-            <div><Spinner/></div>
+            <div>
+                <Form login={login} setEmail={setEmail} setSenha={setSenha}/>
+            </div>
         )
     }
-    return(
-        <div>
-            <Form login={login} setEmail={setEmail} setSenha={setSenha}/>
-        </div>
-    )
 }
 
 function Form({login, setEmail, setSenha}){
@@ -40,12 +46,12 @@ function Form({login, setEmail, setSenha}){
             <form onSubmit={login}>
                 <div className="mb-3">
                     <label htmlFor="inputEmail" className="form-label">Email</label>
-                    <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" required onChange={(e) => setEmail(e.target.value)}/>
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                    <input type="email" className="form-control" id="inputEmail" required onChange={(e) => setEmail(e.target.value)}/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="inputPassword" className="form-label">Senha</label>
-                    <input type="password" className="form-control" id="inputPassword" required onChange={(e) => setSenha(e.target.value)}/>
+                    <input type="password" className="form-control" id="inputPassword" aria-describedby="passwordHelp" required onChange={(e) => setSenha(e.target.value)}/>
+                    <div id="passwordHelp" className="form-text"></div>
                 </div>
                 <div className="form-text">
                     <p>Esqueceu a senha? <a href="./redefine">recupere aqui</a></p>

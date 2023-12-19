@@ -1,17 +1,8 @@
 import { initializeApp } from "firebase/app"
-import { getAuth, initializeAuth } from "firebase/auth"
-import { getFirestore, collection, onSnapshot} from "firebase/firestore"
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
+import { getFirestore, collection, onSnapshot, query, where, getDocs} from "firebase/firestore"
+import { useEffect, useState } from "react";
 
-
-// const firebaseConfig = {
-//   apiKey: process.env.NEXT_PUBLIC_APIKEY,
-//   authDomain: process.env.AUTHDOMAIN,
-//   databaseURL: process.env.DATABASEURL,
-//   projectId: process.env.PROJECTID,
-//   storageBucket: process.env.STORAGEBUCKET,
-//   messagingSenderId: process.env.MESSAGINGSENDERID,
-//   appId: process.env.APPID
-// }
 
 const firebaseConfig = {
   apiKey: "AIzaSyA2oXVd371Y2fas-tbiUkupK7Z3OI8OGRI",
@@ -23,6 +14,55 @@ const firebaseConfig = {
   appId: "1:1088755764635:web:b5ea0db5a1f21f2488653e"
 };
 
-const app = initializeApp(firebaseConfig)
+export const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const bd = getFirestore(app)
+
+export const autenticar = () => { 
+  const [valor, setValor] = useState('')
+
+  useEffect(() => {
+      onAuthStateChanged(auth, (user) => {
+          if(user){
+              setValor(true)
+          }else{
+              setValor(false)
+          }
+      }, [auth])
+  })
+
+  return valor
+}
+
+export const pegaUsuario = (callback) => {
+  const usuario = []
+  const usuarioCollection = collection(bd, 'usuario')
+
+  onSnapshot(usuarioCollection, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+      const dados = { 
+          id: doc.id,
+          data: doc.data()}
+          usuario.push(dados)
+      });
+      callback(usuario)
+  });
+}
+
+
+export const sair = () => {
+  signOut(auth).then(() => {
+  }).catch((error) => {
+  })
+}
+
+export function verificaTipoUsuario(){
+  const [tipoUsuario, setTipoUsuario] = useState([])
+
+  pegaUsuario((usuarios) => usuarios.map((u) => {
+      if(u.data.email === auth.currentUser?.email && u.data.tipo === "servidor"){
+          setTipoUsuario(true)
+      }
+  }))
+  return tipoUsuario
+}
