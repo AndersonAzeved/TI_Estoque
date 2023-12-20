@@ -4,6 +4,7 @@ import { Timestamp, doc, onSnapshot, setDoc } from "firebase/firestore"
 import { auth, bd, pegaContMovimentacao, pegaUsuario } from "../../util/firebase"
 import { atualizarDoc, cadastrarDoc } from "../../api/documento"
 import Spinner from "../components/spinner"
+import styles from '../../styles/config.module.css'
 
 export default function Movimentacao(){
     const [estoque, setEstoque] = useState()
@@ -139,54 +140,56 @@ export default function Movimentacao(){
     if(auth.currentUser){
         return(
             <div>
-                <h1 style={{textAlign: "center"}}>Registrar movimentação de produto</h1><br/>
+                <h1 className={styles.titulo}>Registrar movimentação de produto</h1><br/>
                 <div>
-                    <div className="container-fluid">
+                    <div className="container-fluid" style={{marginBottom: 10}}>
                         <label htmlFor="inputBusca" className="form-label">Pesquise o produto</label>
                         <form className="d-flex" role="search" >
                             <input className="form-control me-2" id="inputBusca" value={busca} type="search" placeholder="Buscar produto" aria-label="Search" onChange={(e) => setBusca(e.target.value)}/>
                             <button className="btn btn-outline-success" onClick={buscar}>Buscar</button>
                         </form>
                         <div id="helpBusca"></div>
-                    </div><br/>
-                    <div className="container-fluid">
+                    </div>
+                    <div className="container-fluid" style={{marginBottom: 10}}>
                         <label htmlFor="floatingSelect" className="form-label">Selecione o produto</label>
                         <select className="form-control col-md-6" id="floatingSelect" aria-label="Floating label select example" required value={entrada} onChange={(e) => setEntrada(e.target.value)}>
                             <option value='' disabled >Selecione</option>
                             {produtosEncontrados?.map((p) => <option key={p.id} value={p.id}>{p.id} - {p.data.nome.toUpperCase()}, {p.data.quantidade} quantidades</option>)}
                         </select>
                         <label className="form-label">Produto selecionado {nomeEntrada.toUpperCase()}</label>
-                    </div><br/>
+                    </div>
                 </div>
     
-                <div className="container-fluid">
+                <div className="container-fluid" style={{marginBottom: 10}}>
                     <select className="form-select" id="tipoSelect" aria-label="Floating label select example" required value={tipo} onChange={(e) => setTipo(e.target.value)}>
                         <option value='' disabled>Selecione</option>
                         <option value="entrada" key='servidor'>Entrada</option>
                         <option value="saida" key='bolsista' >Saída</option>
                     </select>
                     <label htmlFor="floatingSelect">Selecione o tipo de movimentação</label>
-                </div><br/>
+                </div>
     
-                <form className="container-fluid" onSubmit={registrarEntrada}>
-                    <div className="mb-3" >
+                <form className="container-fluid" onSubmit={registrarEntrada} style={{marginBottom: 10}}>
+                    <div className="mb-3" style={{marginBottom: 10}}>
                         <label htmlFor="inputQuantidade" className="form-label">Quantidade</label>
                         <input type="number" className="form-control" id="inputQuantidade" required value={qnt} onChange={(e) => setQnt(+e.target.value)}/>
                         <div id="qntHelp"></div>
-                    </div><br/>
+                    </div>
     
-                    <div className="mb-3">
+                    <div className="mb-3" style={{marginBottom: 10}}>
                         <label htmlFor="inputData" className="form-label">Data</label>
                         <input type="date" className="form-control" id="inputData" value={data} onChange={(e) => setData(e.target.value)} required max={dataAtualFormatada}/>
-                    </div><br/>
+                    </div>
     
-                    <div className="mb-3">
+                    <div className="mb-3" style={{marginBottom: 10}}>
                         <label htmlFor="inputHora" className="form-label">Hora</label>
                         <input className="form-control" id="inputHora" type="time" value={hora} onChange={(e) => setHora(e.target.value)} required/>
-                    </div><br/>
+                    </div>
                     
                     <div id="help"></div><br/>
-                    <button className="btn btn-outline-success">Registrar</button>
+                    <div className="mb-3" style={{flexDirection: "column", display: "flex"}}>
+                        <button className="btn btn-outline-success">Registrar</button>
+                    </div>
                 </form>
             </div>
         )

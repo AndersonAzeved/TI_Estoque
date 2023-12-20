@@ -5,6 +5,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { useRouter } from "next/router";
 import Spinner from "../components/spinner";
 import { cadastrarDoc } from "../../api/documento";
+import styles from '../../styles/config.module.css'
 
 export default function Signup(){
     const [usuarios, setUsuarios] = useState([])
@@ -92,7 +93,7 @@ export default function Signup(){
     if(auth.currentUser != null && tipoUsuario){
         return(
             <div>
-                <h1>Realizar cadastro no sistema</h1>
+                <h1 className={styles.titulo}>Realizar cadastro no sistema</h1><br/>
                 <form onSubmit={cadastrar}>
                     <div className="mb-3">
                         <label htmlFor="inputMatricula" className="form-label">Matrícula</label>
@@ -121,11 +122,12 @@ export default function Signup(){
                         </select>
                         <label htmlFor="floatingSelect">Selecione o tipo do usuário</label>
                     </div>
-                    <div id="help"></div>
-                    <div className="form-text">
-                        <p>Esqueceu a senha? <a href="./redefine">recupere aqui</a></p>
+                    <div id="help"></div><br/>
+                    
+                    <div className="mb-3" style={{flexDirection: "column", display: "flex"}}>
+                        <button type="submit" className="btn btn-outline-success">Cadastrar</button>
                     </div>
-                    <button type="submit" className="btn btn-outline-success">Cadastrar</button>
+                    
                 </form>
             </div>
         )

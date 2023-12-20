@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth"
 import { autenticar, auth, sair } from "../../util/firebase"
 import { useRouter } from "next/router"
 import Spinner from "../components/spinner"
-
+import styles from '../../styles/config.module.css'
 
 export default function Login(){
     const [email, setEmail] = useState('')
@@ -58,7 +58,7 @@ export default function Login(){
 function Form({login, setEmail, setSenha}){
     return(
         <div>
-            <h1>Realize o log in no sistema</h1>
+            <h1 >Realize o log in no sistema</h1><br/>
             <form onSubmit={login}>
                 <div className="mb-3">
                     <label htmlFor="inputEmail" className="form-label">Email</label>
@@ -72,7 +72,10 @@ function Form({login, setEmail, setSenha}){
                 <div className="form-text">
                     <p>Esqueceu a senha? <a href="./redefine">recupere aqui</a></p>
                 </div>
-                <button type="submit" className="btn btn-outline-success">Log in</button>
+                <div className="mb-3" style={{flexDirection: "column", display: "flex"}}>
+                    <button type="submit" className="btn btn-outline-success">Log in</button>
+                </div>
+                
             </form>
         </div>
     )

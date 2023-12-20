@@ -1,14 +1,19 @@
+import styles from '../../styles/config.module.css'
+
 export default function Login(){
     return(
         <div>
-            <h1>Redefinir senha</h1>
+            <h1 className={styles.titulo}>Redefinir senha</h1><br/>
             <form>
                 <div className="mb-3">
                     <label htmlFor="inputEmail" className="form-label">Email</label>
                     <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" required/>
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                    <div id="emailHelp" className="form-text"></div>
                 </div>
-                <button type="submit" className="btn btn-outline-success">Enviar</button>
+                <div className="mb-3" style={{flexDirection: "column", display: "flex"}}>
+                    <button type="submit" className="btn btn-outline-success">Enviar</button>
+                </div>
+                
             </form>
         </div>
     )

@@ -4,6 +4,7 @@ import { autenticar, auth } from "../../util/firebase"
 import { useRouter } from "next/router"
 import Spinner from "../components/spinner"
 import { cadastrarDoc } from "../../api/documento"
+import styles from '../../styles/config.module.css'
 
 
 export default function CadastrarProduto(){
@@ -48,7 +49,7 @@ export default function CadastrarProduto(){
         return(
             <div>
                 <title>Produto</title>
-                <h1>Cadastrar produto no sistema</h1>
+                <h1 className={styles.titulo}>Cadastrar produto no sistema</h1><br/>
                 <form onSubmit={cadastrar}>
                     <div className="mb-3">
                         <label htmlFor="inputCodigo" className="form-label">Codigo</label>
@@ -62,8 +63,10 @@ export default function CadastrarProduto(){
                         <label htmlFor="inputQuantidade" className="form-label">Quantidade</label>
                         <input type="number" className="form-control" id="inputQuantidade" required value={qnt} onChange={(e) => setQnt(+e.target.value)}/>
                     </div>
-                    <button type="submit" className="btn btn-outline-success">Cadastrar</button>
                     <div id="result"></div>
+                    <div className="mb-3" style={{flexDirection: "column", display: "flex"}}>
+                        <button type="submit" className="btn btn-outline-success">Cadastrar</button>
+                    </div>
                 </form>
             </div>
         )
