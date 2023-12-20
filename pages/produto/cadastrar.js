@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { cadastrarDoc } from "../../api/produto"
 import { pegaEstoque } from "./consultar"
 import { autenticar, auth } from "../../util/firebase"
 import { useRouter } from "next/router"
 import Spinner from "../components/spinner"
+import { cadastrarDoc } from "../../api/documento"
 
 
 export default function CadastrarProduto(){

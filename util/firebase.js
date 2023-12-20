@@ -66,3 +66,18 @@ export function verificaTipoUsuario(){
   }))
   return tipoUsuario
 }
+
+export const pegaContMovimentacao = (callback) => {
+  const contArray = []
+  const contCollection = collection(bd, 'cont_movimentacao')
+
+  onSnapshot(contCollection, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+      const dados = { 
+          id: doc.id,
+          data: doc.data()}
+          contArray.push(dados)
+      });
+      callback(contArray)
+  });
+}

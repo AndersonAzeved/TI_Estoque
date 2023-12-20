@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { auth, bd, pegaUsuario, app, sair, verificaTipoUsuário, verificaTipoUsuario, autenticar } from "../../util/firebase";
 import { createUserWithEmailAndPassword, getAuth, signInWithCredential, signInWithCustomToken, signInWithEmailAndPassword, signOut, updateProfile} from "firebase/auth";
-import { cadastrarDoc } from "../../api/produto";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useRouter } from "next/router";
 import Spinner from "../components/spinner";
+import { cadastrarDoc } from "../../api/documento";
 
 export default function Signup(){
     const [usuarios, setUsuarios] = useState([])

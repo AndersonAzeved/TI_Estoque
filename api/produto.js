@@ -10,7 +10,3 @@ export async function getProdutos(){
     }))
   return produtos
 }
-
-export async function cadastrarDoc(colecao, codigo, data){
-  await setDoc(doc(bd, colecao, codigo), data)
-}

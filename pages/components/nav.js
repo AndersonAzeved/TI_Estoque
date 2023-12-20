@@ -42,8 +42,7 @@ export default function Nav(){
                                             Movimentações
                                             </a>
                                             <ul className="dropdown-menu dropdown-menu-dark">
-                                                <li><a className="dropdown-item" href="../movimentacao/entrada">Entrada</a></li>
-                                                <li><a className="dropdown-item" href="../movimentacao/saida">Saída</a></li>
+                                                <li><a className="dropdown-item" href="../movimentacao/movimentacao">Registrar</a></li>
                                                 <li><a className="dropdown-item" href="../movimentacao/registros">Registros</a></li>
                                             </ul>
                                         </li>
