@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { autenticar, auth, sair } from "../../util/firebase"
 import { useRouter } from "next/router"
@@ -9,14 +9,26 @@ export default function Login(){
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
     const router = useRouter()
+    const [autenticado, setAutenticado] = useState(false) 
+
+    useEffect(()=>{
+        if(auth.currentUser != null){
+            setAutenticado(true)
+        }
+
+        if(autenticado){
+            router.push('/')
+        }
+        
+    }, [autenticado])
 
     const login = (e) => {
         e.preventDefault()
         
-        
         signInWithEmailAndPassword(auth, email, senha).then((userCredential) => {
             const user = userCredential.user
             document.getElementById('passwordHelp').innerHTML = 'Log in com sucesso'
+            router.push('/')
         }).catch((error) => {
             const errorCode = error.code
             if(errorCode == 'auth/missing-password'){
@@ -29,14 +41,17 @@ export default function Login(){
         })
     }
 
-    if(autenticar()){
-        router.push('/')
-    }else{
+    if(auth.currentUser == null){
         return(
             <div>
                 <Form login={login} setEmail={setEmail} setSenha={setSenha}/>
             </div>
         )
+        
+    }else if(autenticado){
+        router.push('/')
+    }else{
+        return(<Spinner/>)
     }
 }
 

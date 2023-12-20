@@ -1,7 +1,7 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { getProdutos } from "../../api/produto"
 import { autenticar, auth, bd } from "../../util/firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Spinner from "../components/spinner";
 import { useRouter } from "next/router";
 
@@ -9,7 +9,13 @@ export default function ConsultarEstoque(){
     const [estoque, setEstoque] = useState()
     const [busca, setBusca] = useState('')
     const router = useRouter()
-    const autenticado = autenticar()
+    const [autenticado, setAutenticado] = useState('') 
+
+    useEffect(()=>{
+        if(auth.currentUser != null){
+            setAutenticado(true)
+        }     
+    }, [autenticado])
 
     pegaEstoque((estoque) => {
         setEstoque(estoque)
@@ -56,7 +62,7 @@ export default function ConsultarEstoque(){
         }
     }
 
-    if(autenticado == true){
+    if(auth.currentUser){
         return(
             <div>
                 <h1>Estoque de produtos</h1>
@@ -93,14 +99,10 @@ export default function ConsultarEstoque(){
             </div>
         )
     
-    }else if(autenticado == false && auth.currentUser == null){
-        console.log(autenticado, auth.currentUser)
-        if (typeof window !== 'undefined') {
-            router.push('/');
-        }
-    }else{
+    }else if(autenticado == ''){
         return(<Spinner/>)
-        
+    }else if(!autenticado){
+        router.push("/")
     }
 }
 

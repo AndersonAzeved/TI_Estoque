@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, getAuth, signInWithCredential, signInWi
 import { cadastrarDoc } from "../../api/produto";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useRouter } from "next/router";
+import Spinner from "../components/spinner";
 
 export default function Signup(){
     const [usuarios, setUsuarios] = useState([])
@@ -15,7 +16,13 @@ export default function Signup(){
     const router = useRouter()
 
     const tipoUsuario = verificaTipoUsuario()
-    const autenticado = autenticar()
+    const [autenticado, setAutenticado] = useState(false) 
+
+    useEffect(()=>{
+        if(auth.currentUser != null){
+            setAutenticado(true)
+        }
+    }, [autenticado])
     
     pegaUsuario((usuarios) => {
         setUsuarios(usuarios)
@@ -49,6 +56,7 @@ export default function Signup(){
                 setNome('')
                 setSenha('')
                 setTipo('') 
+                sair()
 
             }).catch((error)=>{
                 document.getElementById("matriculaHelp").innerHTML = ""
@@ -81,7 +89,7 @@ export default function Signup(){
         } 
     }
 
-    if(autenticado && tipoUsuario){
+    if(auth.currentUser != null && tipoUsuario){
         return(
             <div>
                 <h1>Realizar cadastro no sistema</h1>
@@ -121,10 +129,10 @@ export default function Signup(){
                 </form>
             </div>
         )
+    }else if(autenticado == ''){
+        return(<Spinner/>)
     }else{
-        if (typeof window !== 'undefined') {
-            router.push('/');
-        }
+        router.push('/');
     }
 
 
