@@ -18,89 +18,88 @@ export default function Registros(){
         }     
     }, [autenticado])
 
-
     useEffect(()=>{
         pegaMovimentacoes((movimentacao)=>{
             setMovimentacoes(movimentacao)
         })
-    
+
         pegaUsuario((usuarios)=>{
             setUsuarios(usuarios)
         })
-    
+
         pegaEstoque((estoque)=>{
             setEstoque(estoque)
         })
 
-        usuarios?.map((u)=>{
-            movimentacoes?.map((m)=>{
-                estoque?.map((e)=>{
-                    if(u.id === m.data.cod_usuario){
-                        if(e.id === m.data.produto){
-                            const dados = {
-                            nomeUsuario: u.data.nome,
-                            nomeProduto: e.data.nome,
-                            movimentacao: m
-                            }
-                            relatorio.push(dados)
+        
+    },[])
+
+    usuarios?.map((u)=>{
+        movimentacoes?.map((m)=>{
+            estoque?.map((e)=>{
+                if(u.id === m.data.cod_usuario){
+                    if(e.id === m.data.produto){
+                        const dados = {
+                        nomeUsuario: u.data.nome,
+                        nomeProduto: e.data.nome,
+                        movimentacao: m
                         }
+                        relatorio.push(dados)
                     }
-                })
+                }
             })
         })
-    }, [relatorio])
+    })
       
-    console.log(relatorio)
 
     const gerar = (e) => {
         e.preventDefault()
 
-        document.getElementById("table").innerHTML = ``
-        /*document.getElementById("table").innerHTML = `
-                ${movimentacoes?.map((m) =>  ` 
-                    <tr>
-                        <td>${m.id}</td>
-                        <td>${m.data.cod_usuario}</td>
-                        <td>${m.data.quantidade}</td>
-                        <td>${m.data.data.data}</td>
-                    </tr>
-                `).join('')}`*/
-        
-        
+        document.getElementById("table").innerHTML = `
+            ${relatorio.map((r)=>
+                `<tr>
+                    <td>
+                        <details key=${r.movimentacao.id}>
+                            <summary>${r.movimentacao.data.tipo.toUpperCase()} - ${r.movimentacao.id},  ${r.nomeProduto.toUpperCase()}, ${r.nomeUsuario.toUpperCase()} </summary>
+                            <div>
+                                <p>Dia ${r.movimentacao.data.data.data} às ${r.movimentacao.data.data.hora}</p>
+                                <p>Código produto: ${r.movimentacao.data.produto}</p> 
+                                <p>Quantidade: ${r.movimentacao.data.quantidade}</p> 
+                                <p>Matrícula Usuário: ${r.movimentacao.data.cod_usuario}</p> 
+                            </div>
+                        </details>
+                    </td>
+                </tr>`
+                ).join('')}`
     }
 
     if(auth.currentUser){
         return(
-            <div>
-                <div>
-                    <h1 className={styles.titulo}>Ver movimentações</h1>
-                </div><br/>
+            <div>   
+                <title>Registros</title>
+                    <div>
+                        <h1 className={styles.titulo}>Ver movimentações</h1>
+                    </div><br/>
 
-                <div className="container-fluid" style={{textAlign: "center"}}>
-                    <button type="button" onClick={gerarRelatorio} className="btn btn-outline-success btn-sm">Gerar relatório</button>
-                </div><br/>
-                
-                <div className="table-responsive" style={{borderRadius: 15}}>   
-                    <table className="table table-striped">
-                        <thead className="table-dark">
-                            <tr>
-                                <th scope="col">Codigo</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Quant.</th>
-                                <th scope="col">Data</th>
-                            </tr>
-                        </thead>
-                        <tbody className="table-group-divider" id="table">
-                            
-                        </tbody>
-                    </table>
-                </div>
-
+                    <div className="container-fluid" style={{textAlign: "center"}}>
+                        <button type="button" onClick={gerar} className="btn btn-outline-success btn-sm">Gerar relatório</button>
+                    </div><br/>
+                    
+                    <div className="table-responsive" style={{borderRadius: 15}}>   
+                        <table className="table table-striped">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody className="table-group-divider" id="table">
+                                
+                            </tbody>
+                        </table>
+                    </div>
             </div>
         )
-    }else if(autenticado == ''){
+    }else{
         return(<Spinner/>)
-    }else if(!autenticado){
-        router.push("/")
     }
 }
