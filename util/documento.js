@@ -1,5 +1,5 @@
-import { collection, doc, getDocs, setDoc, updateDoc} from "firebase/firestore";
-import {bd} from '../util/firebase'
+import { doc, setDoc, updateDoc} from "firebase/firestore";
+import {bd} from './firebase'
 
 export async function cadastrarDoc(colecao, codigo, data){
     await setDoc(doc(bd, colecao, codigo), data)

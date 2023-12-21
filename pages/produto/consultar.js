@@ -1,22 +1,13 @@
-import { collection, onSnapshot } from "firebase/firestore";
-import { getProdutos } from "../../api/produto"
-import { autenticar, auth, bd } from "../../util/firebase";
-import { useEffect, useState } from "react";
-import Spinner from "../components/spinner";
-import { useRouter } from "next/router";
+import { collection, onSnapshot } from "firebase/firestore"
+import { auth, bd } from "../../util/firebase"
+import { useState } from "react"
+import Spinner from "../components/spinner"
 import styles from '../../styles/config.module.css'
 
 export default function ConsultarEstoque(){
     const [estoque, setEstoque] = useState()
     const [busca, setBusca] = useState('')
-    const router = useRouter()
-    const [autenticado, setAutenticado] = useState('') 
 
-    useEffect(()=>{
-        if(auth.currentUser != null){
-            setAutenticado(true)
-        }     
-    }, [autenticado])
 
     pegaEstoque((estoque) => {
         setEstoque(estoque)
@@ -62,7 +53,7 @@ export default function ConsultarEstoque(){
             }
         }
     }
-//style={{display: "flex", justifyContent: "flex-start", justifyContent: "space-evenly"}}
+
     if(auth.currentUser){
         return(
             <div>
@@ -99,10 +90,8 @@ export default function ConsultarEstoque(){
             </div>
         )
     
-    }else if(autenticado == ''){
+    }else{
         return(<Spinner/>)
-    }else if(!autenticado){
-        router.push("/")
     }
 }
 

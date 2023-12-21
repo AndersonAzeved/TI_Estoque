@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { pegaEstoque } from "./consultar"
-import { autenticar, auth } from "../../util/firebase"
-import { useRouter } from "next/router"
+import { auth } from "../../util/firebase"
 import Spinner from "../components/spinner"
-import { cadastrarDoc } from "../../api/documento"
 import styles from '../../styles/config.module.css'
+import { cadastrarDoc } from "../../util/documento"
 
 
 export default function CadastrarProduto(){
@@ -12,14 +11,7 @@ export default function CadastrarProduto(){
     const [nome, setNome] = useState('')
     const [qnt, setQnt] = useState('')
     const [estoque, setEstoque] = useState()
-    const router = useRouter()
-    const [autenticado, setAutenticado] = useState('') 
 
-    useEffect(()=>{
-        if(auth.currentUser != null){
-            setAutenticado(true)
-        }     
-    }, [autenticado])
 
     pegaEstoque((estoque) => {
         setEstoque(estoque)
@@ -70,11 +62,7 @@ export default function CadastrarProduto(){
                 </form>
             </div>
         )
-    }else if(autenticado == ''){
+    }else{
         return(<Spinner/>)
-    }else if(!autenticado){
-        router.push("/")
     }
-        
-    
 }

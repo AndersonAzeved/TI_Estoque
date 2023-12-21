@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 import { buscarProdutos, pegaEstoque } from "../produto/consultar"
-import { Timestamp, doc, onSnapshot, setDoc } from "firebase/firestore"
-import { auth, bd, pegaContMovimentacao, pegaUsuario } from "../../util/firebase"
-import { atualizarDoc, cadastrarDoc } from "../../api/documento"
+import { auth, pegaContMovimentacao, pegaUsuario } from "../../util/firebase"
 import Spinner from "../components/spinner"
 import styles from '../../styles/config.module.css'
+import { atualizarDoc, cadastrarDoc } from "../../util/documento"
 
 export default function Movimentacao(){
     const [estoque, setEstoque] = useState()
@@ -19,13 +18,12 @@ export default function Movimentacao(){
     const [usuario, setUsuario] = useState('')
     const [qnt, setQnt] = useState('')
     const [tipo, setTipo] = useState('')
-    const [autenticado, setAutenticado] = useState('') 
 
-    useEffect(()=>{
-        if(auth.currentUser != null){
-            setAutenticado(true)
-        }     
-    }, [autenticado])
+    const dataAtual = new Date();
+    const ano = dataAtual.getFullYear();
+    const mes = dataAtual.getMonth() + 1; 
+    const dia = dataAtual.getDate();
+    const dataAtualFormatada = `${ano}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`
     
     
     pegaContMovimentacao((contArray)=>{
@@ -41,7 +39,7 @@ export default function Movimentacao(){
     useEffect(()=>{
         pegaUsuario((usuarios)=>{
             usuarios.map((u)=> {
-                if(u.data.email === auth.currentUser.email){
+                if(u.data.email === auth.currentUser?.email){
                     setUsuario(u.id)
                 }
             })
@@ -93,7 +91,7 @@ export default function Movimentacao(){
                     atualizarDoc('cont_movimentacao', 'cont',{cont: (cont+1)})
                     cadastrarDoc('movimentacao', cont.toString(), {
                         cod_usuario: usuario,
-                        data: Timestamp.fromDate(dataEHora),
+                        data: {data: data, hora: hora},
                         produto: entrada,
                         quantidade: qnt,
                         tipo: tipo
@@ -113,7 +111,7 @@ export default function Movimentacao(){
                     atualizarDoc('cont_movimentacao', 'cont',{cont: (cont+1)})
                     cadastrarDoc('movimentacao', cont.toString(), {
                         cod_usuario: usuario,
-                        data: Timestamp.fromDate(dataEHora),
+                        data: {data: data, hora: hora},
                         produto: entrada,
                         quantidade: qnt,
                         tipo: tipo
@@ -130,13 +128,7 @@ export default function Movimentacao(){
         }
     }
 
-    const dataAtual = new Date();
-    const ano = dataAtual.getFullYear();
-    const mes = dataAtual.getMonth() + 1; 
-    const dia = dataAtual.getDate();
-    const dataAtualFormatada = `${ano}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`
-    const dataEHora = new Date(`${data}T${hora}`)
-
+   
     if(auth.currentUser){
         return(
             <div>
@@ -193,10 +185,7 @@ export default function Movimentacao(){
                 </form>
             </div>
         )
-    }else if(autenticado == ''){
+    }else{
         return(<Spinner/>)
-    }else if(!autenticado){
-        router.push("/")
     }
-
 }

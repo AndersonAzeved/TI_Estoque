@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from 'react'
 import styles from '../../styles/nav.module.css'
-import { autenticar, auth, pegaUsuario, sair, verificaTipoUsuario } from '../../util/firebase'
+import { autenticar, auth,  sair } from '../../util/firebase'
 
 export default function Nav(){
     const autenticado = autenticar()
-    const tipoUsuario = verificaTipoUsuario()
-
+    const nome = auth.currentUser?.displayName
     return (
         <>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
             <div className={styles.nav}>
                 <nav className="navbar">
                     <div className="container-fluid">
-                        <p className="navbar-brand">Gerenciamento de Estoque</p>
+                        <h1 className="navbar-brand">Gerenciamento de Estoque</h1>
                         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="offcanvas offcanvas-end" tabIndex="1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel" style={{width: 300}}>
                         
                         <div className="offcanvas-header">
-                            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">Olá, bem vindo</h5>
+                            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">Olá, bem vindo {nome}</h5>
                             <button type="button" className="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                          </div>
 
@@ -47,10 +45,6 @@ export default function Nav(){
                                             </ul>
                                         </li>
 
-                                        {tipoUsuario === true ? <li className="nav-item">
-                                            <a className="nav-link" href="../auth/signup">Cadastrar usuario</a>
-                                        </li> : ''}
-
                                         <li className="nav-item">
                                             <button onClick={sair} className="btn btn-outline-success">Sair</button>
                                         </li>
@@ -66,6 +60,9 @@ export default function Nav(){
                                     <li className="nav-item">
                                         <a className="nav-link" href="../auth/login">Log in</a>
                                     </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="../auth/signup">Sign up</a>
+                                    </li> 
                                 </ul>
                             </div>
                         )}

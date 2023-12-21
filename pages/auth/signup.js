@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { auth, bd, pegaUsuario, app, sair, verificaTipoUsuário, verificaTipoUsuario, autenticar } from "../../util/firebase";
-import { createUserWithEmailAndPassword, getAuth, signInWithCredential, signInWithCustomToken, signInWithEmailAndPassword, signOut, updateProfile} from "firebase/auth";
-import { collection, onSnapshot } from "firebase/firestore";
+import { useState } from "react";
+import { auth, pegaUsuario } from "../../util/firebase";
+import { createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import { useRouter } from "next/router";
 import Spinner from "../components/spinner";
-import { cadastrarDoc } from "../../api/documento";
 import styles from '../../styles/config.module.css'
+import { cadastrarDoc } from "../../util/documento";
 
 export default function Signup(){
     const [usuarios, setUsuarios] = useState([])
@@ -15,15 +14,7 @@ export default function Signup(){
     const [tipo, setTipo] = useState('')
     const [senha, setSenha] = useState("")
     const router = useRouter()
-
-    const tipoUsuario = verificaTipoUsuario()
-    const [autenticado, setAutenticado] = useState(false) 
-
-    useEffect(()=>{
-        if(auth.currentUser != null){
-            setAutenticado(true)
-        }
-    }, [autenticado])
+    
     
     pegaUsuario((usuarios) => {
         setUsuarios(usuarios)
@@ -38,17 +29,17 @@ export default function Signup(){
         if (matriculaJaCadastrado == false && emailJaCadastrado == false) {
             createUserWithEmailAndPassword(auth, email, senha).then((userCredential) => {
                 const user = userCredential.user
-
-                updateProfile(user, {
-                    displayName: nome
-                }).then(() => {
-                }).catch((error) => {})
-                
                 cadastrarDoc('usuario', matricula, {
                     email: email,
                     nome: nome,
                     tipo: tipo
-                })
+                }).then(()=>{
+                    updateProfile(user, {
+                        displayName: nome
+                    }).then(() => {
+                    }).catch((error) => {})
+                }).catch((error)=>{})
+
                 document.getElementById("matriculaHelp").innerHTML = ""
                 document.getElementById("emailHelp").innerHTML = ""
                 document.getElementById('help').innerHTML = 'Usuário Cadastrado'
@@ -57,11 +48,8 @@ export default function Signup(){
                 setNome('')
                 setSenha('')
                 setTipo('') 
-                sair()
-
+                
             }).catch((error)=>{
-                document.getElementById("matriculaHelp").innerHTML = ""
-                document.getElementById("emailHelp").innerHTML = ""
                 const errorCode = error.code
 
                 if(errorCode == 'auth/missing-password'){
@@ -71,11 +59,9 @@ export default function Signup(){
                 }else if(errorCode == 'auth/email-already-in-use'){
                     document.getElementById('emailHelp').innerHTML = '*Email já cadastrado'
                 }else{
-                    document.getElementById('help').innerHTML = '*A senha'
+                    document.getElementById('senhaHelp').innerHTML = '*A senha'
                 }
             })
-
-            sair()
 
         } else{
             if(matriculaJaCadastrado){
@@ -90,9 +76,12 @@ export default function Signup(){
         } 
     }
 
-    if(auth.currentUser != null && tipoUsuario){
+    if(auth.currentUser){
+        router.push('/');
+    }else if(auth.currentUser == null){
         return(
             <div>
+                <title>Cadastrar Usuário</title>
                 <h1 className={styles.titulo}>Realizar cadastro no sistema</h1><br/>
                 <form onSubmit={cadastrar}>
                     <div className="mb-3">
@@ -131,11 +120,7 @@ export default function Signup(){
                 </form>
             </div>
         )
-    }else if(autenticado == ''){
-        return(<Spinner/>)
     }else{
-        router.push('/');
+        return(<Spinner/>)
     }
-
-
 }
