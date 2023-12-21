@@ -1,3 +1,22 @@
 .titulo{
     text-align: center;
 }
+
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+.containerRedefine{
+    display: flex;
+    justify-content: center;
+}
+
+.containerRedefine input{
+    width: 500px;
+}
+
+.containerDataHora{
+    display: flex;
+    justify-content: space-around;
+}

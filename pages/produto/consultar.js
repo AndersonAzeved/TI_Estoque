@@ -1,6 +1,6 @@
 import { collection, onSnapshot } from "firebase/firestore"
 import { auth, bd } from "../../util/firebase"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Spinner from "../components/spinner"
 import styles from '../../styles/config.module.css'
 
@@ -9,9 +9,11 @@ export default function ConsultarEstoque(){
     const [busca, setBusca] = useState('')
 
 
-    pegaEstoque((estoque) => {
-        setEstoque(estoque)
-    })
+    useEffect(()=>{
+        pegaEstoque((estoque) => {
+            setEstoque(estoque)
+        })
+    },[estoque])
     
     const gerar = (e) => {
         e.preventDefault()
@@ -58,32 +60,34 @@ export default function ConsultarEstoque(){
         return(
             <div>
                 <div>
-                    <h1 className={styles.titulo}>Estoque de produtos</h1>
-                </div><br/>
-                
-                <div>
-                    <div className="container-fluid">
-                        <form className="d-flex" role="search" style={{gap: 10}}>
-                            <input className="form-control form-control-sm" type="search" id="buscaProd" placeholder="Buscar produto pelo nome" aria-label="Search" onChange={(e) => setBusca(e.target.value)}/>
-                            <button className="btn btn-outline-success btn-sm" onClick={buscar}>Buscar</button>
-                            <button type="button" onClick={gerar} className="btn btn-outline-success btn-sm">Todos</button>
-                        </form>
-                        <div id="helpBusca"></div>
+                    <div>
+                        <h1 className={styles.titulo}>Estoque de produtos</h1>
                     </div><br/>
-                
-                    <div className="table-responsive" style={{borderRadius: 15}}>   
-                        <table className="table table-striped">
-                            <thead className="table-dark">
-                                <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Quant.</th>
-                                </tr>
-                            </thead>
-                            <tbody className="table-group-divider" id="table">
-                                
-                            </tbody>
-                        </table>
+                    
+                    <div>
+                        <div className="container-fluid">
+                            <form className="d-flex" role="search" style={{gap: 10}}>
+                                <input className="form-control form-control-sm" type="search" id="buscaProd" placeholder="Buscar produto pelo nome" aria-label="Search" onChange={(e) => setBusca(e.target.value)}/>
+                                <button className="btn btn-outline-success btn-sm" onClick={buscar}>Buscar</button>
+                                <button type="button" onClick={gerar} className="btn btn-outline-success btn-sm">Todos</button>
+                            </form>
+                            <div id="helpBusca"></div>
+                        </div><br/>
+                    
+                        <div className="table-responsive" style={{borderRadius: 15}}>   
+                            <table className="table table-striped">
+                                <thead className="table-dark">
+                                    <tr>
+                                        <th scope="col">Codigo</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Quant.</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="table-group-divider" id="table">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

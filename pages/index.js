@@ -3,6 +3,7 @@ import styles from '../styles/index.module.css'
 export default function Index(){
     return(
         <div className={styles.body}>
+            <title>Estoque - TI</title>
             <div className={styles.container}>
                 <header className={styles.header}>
                     <h1>Bem-vindo ao Sistema de Gestão de Estoque de TI</h1>

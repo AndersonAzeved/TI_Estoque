@@ -34,7 +34,7 @@ export default function Login(){
         router.push('/')
     }else if(auth.currentUser == null){
         return(
-            <div>
+            <div className={styles.container}>
                 <Form login={login} setEmail={setEmail} setSenha={setSenha}/>
             </div>
         )
@@ -46,6 +46,7 @@ export default function Login(){
 function Form({login, setEmail, setSenha}){
     return(
         <div>
+            <title>Log in</title>
             <h1 className={styles.titulo}>Realize o log in no sistema</h1><br/>
             <form onSubmit={login}>
                 <div className="mb-3">

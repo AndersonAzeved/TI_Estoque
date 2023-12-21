@@ -18,34 +18,37 @@ export default function Registros(){
         }     
     }, [autenticado])
 
-    pegaMovimentacoes((movimentacao)=>{
-        setMovimentacoes(movimentacao)
-    })
 
-    pegaUsuario((usuarios)=>{
-        setUsuarios(usuarios)
-    })
+    useEffect(()=>{
+        pegaMovimentacoes((movimentacao)=>{
+            setMovimentacoes(movimentacao)
+        })
+    
+        pegaUsuario((usuarios)=>{
+            setUsuarios(usuarios)
+        })
+    
+        pegaEstoque((estoque)=>{
+            setEstoque(estoque)
+        })
 
-    pegaEstoque((estoque)=>{
-        setEstoque(estoque)
-    })
-
-    usuarios?.map((u)=>{
-        movimentacoes?.map((m)=>{
-            estoque?.map((e)=>{
-                if(u.id === m.data.cod_usuario){
-                    if(e.id === m.data.produto){
-                        const dados = {
-                        nomeUsuario: u.data.nome,
-                        nomeProduto: e.data.nome,
-                        movimentacao: m
+        usuarios?.map((u)=>{
+            movimentacoes?.map((m)=>{
+                estoque?.map((e)=>{
+                    if(u.id === m.data.cod_usuario){
+                        if(e.id === m.data.produto){
+                            const dados = {
+                            nomeUsuario: u.data.nome,
+                            nomeProduto: e.data.nome,
+                            movimentacao: m
+                            }
+                            relatorio.push(dados)
                         }
-                        relatorio.push(dados)
                     }
-                }
+                })
             })
         })
-    })
+    }, [relatorio])
       
     console.log(relatorio)
 

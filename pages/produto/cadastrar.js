@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { pegaEstoque } from "./consultar"
 import { auth } from "../../util/firebase"
 import Spinner from "../components/spinner"
@@ -13,9 +13,11 @@ export default function CadastrarProduto(){
     const [estoque, setEstoque] = useState()
 
 
-    pegaEstoque((estoque) => {
-        setEstoque(estoque)
-    })
+    useEffect(()=>{
+        pegaEstoque((estoque) => {
+            setEstoque(estoque)
+        })
+    },[estoque])
     
     const cadastrar = (e) =>{
         document.getElementById("result").innerHTML = ""
@@ -39,27 +41,29 @@ export default function CadastrarProduto(){
     
     if(auth.currentUser){
         return(
-            <div>
+            <div className={styles.container}>
                 <title>Produto</title>
-                <h1 className={styles.titulo}>Cadastrar produto no sistema</h1><br/>
-                <form onSubmit={cadastrar}>
-                    <div className="mb-3">
-                        <label htmlFor="inputCodigo" className="form-label">Codigo</label>
-                        <input type="number" className="form-control" id="inputCodigo" required value={codigo} onChange={(e) => setCodigo(e.target.value)}/>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="inputNome" className="form-label">Nome do produto</label>
-                        <input type="text" className="form-control" id="inputNome" required value={nome} onChange={(e) => setNome(e.target.value)}/>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="inputQuantidade" className="form-label">Quantidade</label>
-                        <input type="number" className="form-control" id="inputQuantidade" required value={qnt} onChange={(e) => setQnt(+e.target.value)}/>
-                    </div>
-                    <div id="result"></div>
-                    <div className="mb-3" style={{flexDirection: "column", display: "flex"}}>
-                        <button type="submit" className="btn btn-outline-success">Cadastrar</button>
-                    </div>
-                </form>
+                <div>
+                    <h1 className={styles.titulo}>Cadastrar produto no sistema</h1><br/>
+                    <form onSubmit={cadastrar}>
+                        <div className="mb-3">
+                            <label htmlFor="inputCodigo" className="form-label">Codigo</label>
+                            <input type="number" className="form-control" id="inputCodigo" required value={codigo} onChange={(e) => setCodigo(e.target.value)}/>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="inputNome" className="form-label">Nome do produto</label>
+                            <input type="text" className="form-control" id="inputNome" required value={nome} onChange={(e) => setNome(e.target.value)}/>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="inputQuantidade" className="form-label">Quantidade</label>
+                            <input type="number" className="form-control" id="inputQuantidade" required value={qnt} onChange={(e) => setQnt(+e.target.value)}/>
+                        </div>
+                        <div id="result"></div>
+                        <div className="mb-3" style={{flexDirection: "column", display: "flex"}}>
+                            <button type="submit" className="btn btn-outline-success">Cadastrar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         )
     }else{
