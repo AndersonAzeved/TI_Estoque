@@ -6,14 +6,14 @@ import { pegaEstoque } from "../pages/produto/consultar";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA2oXVd371Y2fas-tbiUkupK7Z3OI8OGRI",
-  authDomain: "gerenciador-de-compras-cb40a.firebaseapp.com",
-  databaseURL: "https://gerenciador-de-compras-cb40a-default-rtdb.firebaseio.com",
-  projectId: "gerenciador-de-compras-cb40a",
-  storageBucket: "gerenciador-de-compras-cb40a.appspot.com",
-  messagingSenderId: "1088755764635",
-  appId: "1:1088755764635:web:b5ea0db5a1f21f2488653e"
-};
+  apiKey: "AIzaSyAQwsYBMLLSAyZqLpQTKoZi3P4AJQGxW9o",
+  authDomain: "sistema-estoque-2b654.firebaseapp.com",
+  projectId: "sistema-estoque-2b654",
+  storageBucket: "sistema-estoque-2b654.appspot.com",
+  messagingSenderId: "75788160961",
+  appId: "1:75788160961:web:8325c929c7ef80bb966940",
+  measurementId: "G-F87KKQCP9Q"
+}
 
 export const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
